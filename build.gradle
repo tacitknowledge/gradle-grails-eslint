@@ -1,0 +1,60 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		jcenter()
+		maven {
+			url 'https://plugins.gradle.org/m2/'
+		}
+	}
+	dependencies {
+		classpath 'com.gradle.publish:plugin-publish-plugin:0.9.1'
+	}
+}
+
+plugins {
+	id 'com.jfrog.bintray' version '1.2'
+}
+
+apply plugin: 'com.gradle.plugin-publish'
+apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+apply plugin: 'maven'
+
+group = 'com.tacitknowledge.plugins'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+ext.isReleaseVersion = !version.endsWith('SNAPSHOT')
+
+repositories {
+	jcenter()
+	mavenLocal()
+	mavenCentral()
+}
+
+dependencies {
+	compile gradleApi()
+	compile localGroovy()
+
+	compile 'com.moowork.gradle:gradle-node-plugin:0.11'
+
+	testCompile('org.spockframework:spock-core:0.7-groovy-2.0')
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+            artifactId 'gradle-grails-eslint'
+		}
+	}
+	repositories {
+		maven {
+			url "${nexusURL}/content/repositories/${project.version.endsWith('-SNAPSHOT') ? 'snapshots' : 'release'}"
+			credentials {
+				username = nexusUser
+				password = nexusPassword
+			}
+		}
+	}
+}
