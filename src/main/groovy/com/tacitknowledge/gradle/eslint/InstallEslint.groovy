@@ -14,6 +14,8 @@ class InstallEslint extends NpmTask
 
       def pkgName = 'eslint'
       args = ['install', pkgName]
+
+      outputs.dir new File(project.node.nodeModulesDir, "node_modules/eslint")
     }
   }
 

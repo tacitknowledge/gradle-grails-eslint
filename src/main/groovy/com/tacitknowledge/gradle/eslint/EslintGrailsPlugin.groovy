@@ -19,6 +19,7 @@ class EslintGrailsPlugin implements Plugin<Project>
 
       def runEslint = create(
               name: 'runEslint',
+              dependsOn: installEslint,
               type: RunEslint)
     }
   }
