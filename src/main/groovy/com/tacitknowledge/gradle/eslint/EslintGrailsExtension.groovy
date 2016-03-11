@@ -1,9 +1,9 @@
 package com.tacitknowledge.gradle.eslint
 
-class EslintGrailsExtension
-{
+class EslintGrailsExtension {
   String version
-  Map<String, String> additionalNodeDependencies
-
-  Closure config
+  String configFile
+  String sourceDir
+  String outputPath
+  String format
 }

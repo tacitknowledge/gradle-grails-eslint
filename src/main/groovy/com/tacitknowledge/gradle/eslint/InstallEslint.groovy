@@ -2,17 +2,15 @@ package com.tacitknowledge.gradle.eslint
 
 import com.moowork.gradle.node.task.NpmTask
 
-class InstallEslint extends NpmTask
-{
-  InstallEslint()
-  {
+class InstallEslint extends NpmTask {
+  InstallEslint() {
     group = 'Eslint'
     description = 'Installs eslint bin (node) into project'
 
-    project.afterEvaluate{
+    project.afterEvaluate {
       workingDir = project.node.nodeModulesDir
 
-      def pkgName = 'eslint'
+      def pkgName = project.eslint.version ? "eslint@${project.eslint.version}" : 'eslint'
       args = ['install', pkgName]
 
       outputs.dir new File(project.node.nodeModulesDir, "node_modules/eslint")
@@ -36,8 +34,9 @@ class InstallEslint extends NpmTask
       try {
         logger.info("Trying to acquire lock to install eslint. Attempt nr $i.")
         lock = random.channel.tryLock()
-      } catch (ignore) { /*noop*/ }
-      if(lock) {
+      } catch (ignore) { /*noop*/
+      }
+      if (lock) {
         break
       } else {
         logger.warn("Attempt nr $i was unsuccessful. Sleeping 1min before the next attempt")
@@ -45,14 +44,14 @@ class InstallEslint extends NpmTask
       }
     }
 
-    if(!lock) {
+    if (!lock) {
       throw new IllegalStateException("Can't acquire exclusive lock to setup eslint")
     }
 
-    try{
+    try {
       closure.run()
     } finally {
-      if(lock) {
+      if (lock) {
         lock.release()
         random.close()
       }
