@@ -17,10 +17,15 @@ class EslintGrailsPlugin implements Plugin<Project>
               name: 'installEslint',
               type: InstallEslint)
 
-      def runEslint = create(
-              name: 'runEslint',
-              dependsOn: installEslint,
-              type: RunEslint)
+      def eslintPrepare = create(
+              name: 'eslintPrepare',
+              type: EslintPrepareTask,
+              dependsOn: ['installEslint'])
+
+      def eslintRun = create(
+              name: 'eslintRun',
+              type: EslintRunTask,
+              dependsOn: ['eslintPrepare'])
     }
   }
 }
