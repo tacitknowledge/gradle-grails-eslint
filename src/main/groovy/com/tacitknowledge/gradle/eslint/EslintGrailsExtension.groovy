@@ -3,7 +3,7 @@ package com.tacitknowledge.gradle.eslint
 class EslintGrailsExtension {
   String version
   String configFile
-  String sourceDir
+  List sourceDirs
   String outputPath
   String format
 }

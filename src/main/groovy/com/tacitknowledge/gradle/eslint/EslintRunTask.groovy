@@ -22,7 +22,10 @@ class EslintRunTask extends NodeTask {
       args << '-f' << project.eslint.format
     }
 
-    args << new File(project.projectDir, project.eslint.sourceDir)
+    project.eslint.sourceDirs.each {
+      args << new File(project.projectDir, it)
+    }
+
 
     super.exec()
   }
