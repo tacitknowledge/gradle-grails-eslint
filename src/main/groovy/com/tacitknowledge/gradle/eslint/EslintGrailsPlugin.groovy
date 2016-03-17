@@ -24,6 +24,8 @@ class EslintGrailsPlugin implements Plugin<Project> {
               name: 'eslintRun',
               type: EslintRunTask,
               dependsOn: ['eslintPrepare'])
+
+      findByName('verify')?.dependsOn eslintRun
     }
   }
 }
