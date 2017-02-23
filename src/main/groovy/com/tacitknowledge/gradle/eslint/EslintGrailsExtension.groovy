@@ -6,4 +6,5 @@ class EslintGrailsExtension {
   List sourceDirs
   String outputPath
   String format
+  Map<String, String> additionalNodeDependencies
 }
