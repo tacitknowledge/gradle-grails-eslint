@@ -50,7 +50,7 @@ publishing {
 	}
 	repositories {
 		maven {
-			url "${nexusURL}/content/repositories/${project.version.endsWith('-SNAPSHOT') ? 'snapshots' : 'release'}"
+			url "${nexusURL}/maven-${project.version.endsWith('-SNAPSHOT') ? 'snapshots' : 'releases'}"
 			credentials {
 				username = nexusUser
 				password = nexusPassword
