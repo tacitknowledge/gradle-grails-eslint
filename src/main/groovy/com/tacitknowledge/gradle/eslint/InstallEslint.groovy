@@ -12,8 +12,12 @@ class InstallEslint extends NpmTask {
 
       def pkgName = project.eslint.version ? "eslint@${project.eslint.version}" : 'eslint'
       args = ['install', pkgName]
+      args += project.eslint.additionalNodeDependencies?.collect { k, v -> "$k@$v" } ?: [:]
 
-      outputs.dir new File(project.node.nodeModulesDir, "node_modules/eslint")
+      List<File> moduleDirs = (['eslint'] + project.eslint.additionalNodeDependencies?.keySet()).
+          collect { new File(project.node.nodeModulesDir, "node_modules/$it") }
+      moduleDirs.each { outputs.dir it }
+      enabled = !moduleDirs.every { it.exists() }
     }
   }
 
